@@ -6,7 +6,7 @@ use App\Models\LoginModel;
 use App\Controllers\BaseController;
 
 class Login extends BaseController
-{
+{ 
     public function index()
     {
         $data = [
@@ -41,8 +41,9 @@ class Login extends BaseController
 
             if ($cek_password) {  
                 $session_data = [
+                    'username'  => $cekusername['username'],
                     'logged_in' => TRUE,
-                    'role' => $cekusername['role']  // Simpan role ke session
+                    'role'      => $cekusername['role']  // Simpan role ke session
                 ];
                 $session->set($session_data);  // Simpan data ke session
 

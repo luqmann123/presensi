@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/fullcalendar.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/css/main.css') ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />  
 
   </head>
   <body>
@@ -51,6 +52,35 @@
             href="#0"
             class="d-flex align-items-center collapsed"
             data-bs-toggle="collapse"
+            data-bs-target="#master-data"
+            aria-controls="master-data"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <i class="fas fa-database"></i> <!-- Ikon Rekap Presensi -->
+            <span class="text ms-2">Master Data</span>
+            </a>
+            <ul id="master-data" class="collapse dropdown-nav">
+            <li>
+                <a href="<?= base_url('admin/jabatan') ?>" class="d-flex align-items-center">
+                
+                <span class="ms-2">Data Jabatan</span>
+                </a>
+            </li>
+            <li>
+                <a href="rekap-bulanan.html" class="d-flex align-items-center">
+               
+                <span class="ms-2">Lokasi Presensi</span>
+                </a>
+            </li>
+            </ul>
+        </li>
+
+        <li class="nav-item nav-item-has-children">
+            <a
+            href="#0"
+            class="d-flex align-items-center collapsed"
+            data-bs-toggle="collapse"
             data-bs-target="#ddmenu_1"
             aria-controls="ddmenu_1"
             aria-expanded="false"
@@ -62,13 +92,13 @@
             <ul id="ddmenu_1" class="collapse dropdown-nav">
             <li>
                 <a href="rekap-harian.html" class="d-flex align-items-center">
-                <i class="fas fa-calendar-day"></i> <!-- Ikon Rekap Harian -->
+               
                 <span class="ms-2">Rekap Harian</span>
                 </a>
             </li>
             <li>
                 <a href="rekap-bulanan.html" class="d-flex align-items-center">
-                <i class="fas fa-calendar-alt"></i> <!-- Ikon Rekap Bulanan -->
+               
                 <span class="ms-2">Rekap Bulanan</span>
                 </a>
             </li>
@@ -229,5 +259,61 @@
     <script src="<?= base_url('assets/js/jvectormap.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= base_url('assets/js/main.js') ?>"></script>
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- datatables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    // Initialize DataTable
+    $(document).ready(function () {
+        $('#datatables').DataTable();
+    });
+
+    // SweetAlert for success message
+    $(function () {
+        <?php if (session()->has('berhasil')) { ?>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "<?= $_SESSION['berhasil'] ?>"
+            });
+        <?php } ?>
+    });
+
+    // SweetAlert for delete confirmation
+    $(document).on('click', '.tombol-hapus', function (e) {
+        e.preventDefault();
+        var getLink = $(this).attr('href');
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = getLink;
+            }
+        });
+    });
+</script>
+
+
   </body>
 </html>

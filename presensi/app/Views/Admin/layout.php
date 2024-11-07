@@ -68,7 +68,7 @@
                 </a>
             </li>
             <li>
-                <a href="rekap-bulanan.html" class="d-flex align-items-center">
+                <a href="<?= base_url('admin/lokasi_presensi')?>" class="d-flex align-items-center">
                
                 <span class="ms-2">Lokasi Presensi</span>
                 </a>
@@ -273,26 +273,34 @@
         $('#datatables').DataTable();
     });
 
-    // SweetAlert for success message
-    $(function () {
-        <?php if (session()->has('berhasil')) { ?>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            Toast.fire({
-                icon: "success",
-                title: "<?= $_SESSION['berhasil'] ?>"
-            });
-        <?php } ?>
-    });
+   // SweetAlert for success message
+$(function () {
+    <?php if (session()->has('berhasil')) { ?>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top", // Set position to 'top'
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            },
+            didClose: () => {
+                // Custom CSS to center the toast horizontally
+                $(".swal2-popup").css({
+                    left: "50%",
+                    transform: "translateX(-50%)"
+                });
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "<?= $_SESSION['berhasil'] ?>"
+        });
+    <?php } ?>
+});
+
 
     // SweetAlert for delete confirmation
     $(document).on('click', '.tombol-hapus', function (e) {

@@ -38,12 +38,15 @@ class LokasiPresensi extends BaseController
 
     public function create()
     {
+        $lokasiPresensiModel = new LokasiPresensiModel();
         $data = [
-            'title'      => 'Tambah Lokasi Presensi',
-            'validation' => \Config\Services::validation()
+            'title'           => 'Tambah Lokasi Presensi',
+            'validation'      => \Config\Services::validation(),
+            'lokasi_presensi' => $lokasiPresensiModel->findAll() // Retrieve all locations for the dropdown
         ];
         return view('Admin/lokasi_presensi/create', $data);
     }
+    
 
     public function store()
     {

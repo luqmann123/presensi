@@ -39,6 +39,8 @@ class Login extends BaseController
             $cek_password = password_verify($password, $password_db);
             // dd($username, $password, $password_db, $cek_password);
 
+          
+
             if ($cek_password) {  
                 $session_data = [
                     'username'  => $cekusername['username'],

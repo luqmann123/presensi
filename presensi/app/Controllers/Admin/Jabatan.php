@@ -12,16 +12,19 @@ class Jabatan extends BaseController
         $jabatanModel = new JabatanModel();
         $data = [
             'title'   => 'Data Jabatan',
-            'jabatan' => $jabatanModel->findAll()
+            'jabatan' => $jabatanModel->findAll() // Mengambil semua data jabatan
         ];
         return view('Admin/jabatan/jabatan', $data);
     }
 
     public function create()
     {
+        $jabatanModel = new JabatanModel();
         $data = [
             'title'      => 'Tambah Jabatan',
-            'validation' => \Config\Services::validation()
+            'lokasi_presensi' => $lokasi_presensi->findAll(),
+            'jabatan' => $jabatanModel->findAll($id),
+            'validation' => \Config\Services::validation() // Untuk validasi form
         ];
         return view('Admin/jabatan/create', $data);
     }
@@ -41,7 +44,7 @@ class Jabatan extends BaseController
             // Jika validasi gagal, kembalikan form dengan error
             $data = [
                 'title'      => 'Tambah Jabatan',
-                'validation' => \Config\Services::validation()
+                'validation' => \Config\Services::validation() // Menampilkan pesan error validasi
             ];
             return view('Admin/jabatan/create', $data);
         }
@@ -56,7 +59,6 @@ class Jabatan extends BaseController
 
         // Redirect setelah menyimpan data jabatan
         return redirect()->to(base_url('admin/jabatan'));
-
     }
 
     public function edit($id)
@@ -64,8 +66,8 @@ class Jabatan extends BaseController
         $jabatanModel = new JabatanModel();
         $data = [
             'title'      => 'Edit Jabatan',
-            'jabatan'    => $jabatanModel->find($id),
-            'validation' => \Config\Services::validation()
+            'jabatan'    => $jabatanModel->find($id), // Mengambil data jabatan berdasarkan ID
+            'validation' => \Config\Services::validation() // Untuk validasi form
         ];
         return view('Admin/jabatan/edit', $data);
     }
@@ -82,11 +84,12 @@ class Jabatan extends BaseController
         ];
 
         if (!$this->validate($rules)) {
+            // Jika validasi gagal, kembalikan form dengan error
             $jabatanModel = new JabatanModel();
             $data = [
                 'title'      => 'Edit Jabatan',
-                'jabatan'    => $jabatanModel->find($id),
-                'validation' => \Config\Services::validation()
+                'jabatan'    => $jabatanModel->find($id), // Mengambil data jabatan berdasarkan ID
+                'validation' => \Config\Services::validation() // Menampilkan pesan error validasi
             ];
             return view('Admin/jabatan/edit', $data);
         }
@@ -101,7 +104,6 @@ class Jabatan extends BaseController
 
         // Redirect setelah menyimpan data jabatan
         return redirect()->to(base_url('admin/jabatan'));
-
     }
 
     public function delete($id)
@@ -118,5 +120,4 @@ class Jabatan extends BaseController
     
         return redirect()->to(base_url('admin/jabatan'));
     }
-    
 }
